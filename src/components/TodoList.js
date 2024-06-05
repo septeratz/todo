@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import CreateTask from '../modals/CreateTask'
-import Card from './Card';
+import TaskCard from './Card';
+import { Container, Button, Typography, Box, Grid } from '@mui/material';
 
 const TodoList = () => {
     const [modal, setModal] = useState(false);
@@ -14,7 +15,6 @@ const TodoList = () => {
             setTaskList(obj)
         }
     }, [])
-
 
     const deleteTask = (index) => {
         let tempList = taskList
@@ -46,16 +46,28 @@ const TodoList = () => {
 
 
     return (
-        <>
-            <div className = "header text-center">
-                <h3>Todo List</h3>
-                <button className = "btn btn-primary mt-2" onClick = {() => setModal(true)} >Create Task</button>
-            </div>
-            <div className = "task-container">
-            {taskList && taskList.map((obj , index) => <Card taskObj = {obj} index = {index} deleteTask = {deleteTask} updateListArray = {updateListArray}/> )}
-            </div>
-            <CreateTask toggle = {toggle} modal = {modal} save = {saveTask}/>
-        </>
+    <Container>
+        <Box textAlign="center" my={4}>
+            <Typography variant="h3" textAlign="center">Todo List</Typography>
+            <Button variant="contained" color="primary" onClick={toggle}>
+                Create Task
+            </Button>
+        </Box>
+        <Box>
+            <Grid container spacing={1}>
+            {taskList && taskList.map((obj, index) => (
+                <TaskCard
+                    key={index}
+                    taskObj={obj}
+                    index={index}
+                    deleteTask={deleteTask}
+                    updateListArray={updateListArray}
+                />
+            ))}
+            </Grid>
+        </Box>
+        <CreateTask toggle={toggle} modal={modal} save={saveTask}/>
+    </Container>
     );
 };
 

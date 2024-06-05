@@ -1,7 +1,9 @@
 import React, {useState} from 'react';
-import EditTask from '../modals/EditTask'
+import EditTask from '../modals/EditTask';
+import { Card, Grid, Chip, CardContent, CardActions, Button, Typography, Box } from '@mui/material';
 
-const Card = ({taskObj, index, deleteTask, updateListArray}) => {
+
+const TaskCard = ({taskObj, index, deleteTask, updateListArray}) => {
     const [modal, setModal] = useState(false);
 
     const colors = [
@@ -27,6 +29,23 @@ const Card = ({taskObj, index, deleteTask, updateListArray}) => {
         }
     ]
 
+    const setColor = () => {
+        switch(taskObj.Category){
+            case "Work":
+                return colors[0];
+            case "Home":
+                return colors[1];
+            case "School":
+                return colors[2];
+            case "Exercise":
+                return colors[3];
+            case "Others":
+                return colors[4];
+            default:
+                return colors[0];
+
+        }
+    }
     const toggle = () => {
         setModal(!modal);
     }
@@ -40,20 +59,24 @@ const Card = ({taskObj, index, deleteTask, updateListArray}) => {
     }
 
     return (
-        <div class = "card-wrapper mr-5">
-            <div class = "card-top" style={{"background-color": colors[index%5].primaryColor}}></div>
-            <div class = "task-holder">
-                <span class = "card-header" style={{"background-color": colors[index%5].secondaryColor, "border-radius": "10px"}}>{taskObj.Name}</span>
-                <p className = "mt-3">{taskObj.Description}</p>
-
-                <div style={{"position": "absolute", "top":"160px", "left":"160px"}}>
-                    <button style={{"color" : colors[index%5].primaryColor, "cursor" : "pointer"}} onClick = {() => setModal(true)}>close</button>
-                    <button style = {{"color" : colors[index%5].primaryColor, "cursor" : "pointer"}} onClick = {handleDelete}>Delete</button>
-                </div>
-        </div>
-        <EditTask modal = {modal} toggle = {toggle} updateTask = {updateTask} taskObj = {taskObj}/>
-        </div>
+            <Grid item xs={12} sm={4} md={2.4}>
+                <Card sx={{ mb: 3 }}>
+                    <Box sx={{ backgroundColor: setColor().primaryColor, height: '5px' }}></Box>
+                    <CardContent sx={{ backgroundColor: setColor().secondaryColor, borderRadius: '5px', p: 2 }}>
+                        <Box display="flex" justifyContent="space-between">
+                            <Typography variant="h6">{taskObj.Name}</Typography>
+                            <Chip label={taskObj.Category} />
+                        </Box>
+                        <Typography variant="body" sx={{ mt: 2 }}>{taskObj.Description}</Typography>
+                    </CardContent>
+                    <CardActions>
+                        <Button size="small" color="primary" onClick={() => setModal(true)}>Edit</Button>
+                        <Button size="small" color="secondary" onClick={handleDelete}>Delete</Button>
+                    </CardActions>
+                    <EditTask modal={modal} toggle={toggle} updateTask={updateTask} taskObj={taskObj} />
+                </Card>
+            </Grid>
     );
 };
 
-export default Card;
+export default TaskCard;

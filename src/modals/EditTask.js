@@ -4,19 +4,24 @@ import { Button, Dialog, DialogActions, DialogContent, DialogContentText, Dialog
 const EditTaskPopup = ({ modal, toggle, updateTask, taskObj }) => {
     const [taskName, setTaskName] = useState('');
     const [description, setDescription] = useState('');
+    const [category, setCategory] = useState('Work');
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         if (name === "taskName") {
             setTaskName(value);
-        } else {
+        }  else if (name === "description") {
             setDescription(value);
+        }
+        else {
+            setCategory(value);
         }
     };
 
     useEffect(() => {
         setTaskName(taskObj.Name);
         setDescription(taskObj.Description);
+        setCategory(taskObj.Category);
     }, [taskObj]);
 
     const handleUpdate = (e) => {
@@ -24,6 +29,7 @@ const EditTaskPopup = ({ modal, toggle, updateTask, taskObj }) => {
         let tempObj = {};
         tempObj['Name'] = taskName;
         tempObj['Description'] = description;
+        tempObj['Category'] = category;
         updateTask(tempObj);
     };
 
@@ -42,6 +48,15 @@ const EditTaskPopup = ({ modal, toggle, updateTask, taskObj }) => {
                             name="taskName"
                             margin="dense"
                         />
+                    </div>
+                    <div>
+                    <select name="category" id="category" onChange={handleChange} defaultValue={category}>
+                        <option value="Work">Work</option>
+                        <option value="Home">Home</option>
+                        <option value="School">School</option>
+                        <option value="Exercise">Exercise</option>
+                        <option value="Others">Others</option>
+                    </select>   
                     </div>
                     <div className="form-group">
                         <TextField

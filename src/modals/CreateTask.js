@@ -4,13 +4,17 @@ import { Button, Dialog, DialogActions, DialogContent, DialogContentText, Dialog
 const CreateTaskPopup = ({ modal, toggle, save }) => {
     const [taskName, setTaskName] = useState('');
     const [description, setDescription] = useState('');
+    const [category, setCategory] = useState('Work');  
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         if (name === "taskName") {
             setTaskName(value);
-        } else {
+        }  else if (name === "description") {
             setDescription(value);
+        }
+        else {
+            setCategory(value);
         }
     };
 
@@ -19,6 +23,7 @@ const CreateTaskPopup = ({ modal, toggle, save }) => {
         let taskObj = {};
         taskObj["Name"] = taskName;
         taskObj["Description"] = description;
+        taskObj["Category"] = category;
         save(taskObj);
     };
 
@@ -37,6 +42,16 @@ const CreateTaskPopup = ({ modal, toggle, save }) => {
                             name="taskName"
                             margin="dense"
                         />
+                    </div>
+                    
+                    <div>
+                    <select name="category" id="category" onChange={handleChange} defaultValue={category}>
+                        <option value="Work">Work</option>
+                        <option value="Home">Home</option>
+                        <option value="School">School</option>
+                        <option value="Exercise">Exercise</option>
+                        <option value="Others">Others</option>
+                    </select>   
                     </div>
                     <div className="form-group">
                         <TextField
