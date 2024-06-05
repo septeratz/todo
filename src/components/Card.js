@@ -1,11 +1,10 @@
 import React, {useState} from 'react';
 import EditTask from '../modals/EditTask';
-import { Card, Grid, Chip, CardContent, CardActions, Button, Typography, Box, Checkbox } from '@mui/material';
+import { Card, Grid, Chip, CardContent, CardActions, Button, Typography, Box, Checkbox, FormControlLabel } from '@mui/material';
 
 
 const TaskCard = ({taskObj, index, deleteTask, updateListArray}) => {
     const [modal, setModal] = useState(false);
-    const [completed, setCompleted] = useState(false);
 
     const colors = [
         {
@@ -59,8 +58,8 @@ const TaskCard = ({taskObj, index, deleteTask, updateListArray}) => {
         deleteTask(index)
     }
     const handleCheck = () => {
-        setCompleted(!completed);
-        localStorage.setItem('completed', !completed);
+        const updatedTask = {...taskObj, Completed: !taskObj.Completed};
+        updateListArray(updatedTask, index);
     }
     return (
             <Grid item xs={12} sm={4} md={2.4}>
@@ -72,7 +71,10 @@ const TaskCard = ({taskObj, index, deleteTask, updateListArray}) => {
                             <Chip label={taskObj.Category} />
                         </Box>
                         <Typography variant="body" sx={{ mt: 2 }}>{taskObj.Description}</Typography>
-                        <Checkbox checked={taskObj.completed} onChange={handleCheck} />
+                        <FormControlLabel 
+                            control={<Checkbox checked={taskObj.Completed || false} onChange={handleCheck} />}
+                            label="Completed"
+                         />
                     </CardContent>
                     <CardActions>
                         <Button size="small" color="primary" onClick={() => setModal(true)}>Edit</Button>
