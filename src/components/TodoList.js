@@ -5,7 +5,7 @@ import { Container, Button, Typography, Box, Grid } from '@mui/material';
 
 const TodoList = () => {
     const [modal, setModal] = useState(false);
-    const [taskList, setTaskList] = useState([])
+    const [taskList, setTaskList] = useState([]);
     
     useEffect(() => {
         let arr = localStorage.getItem("taskList")
@@ -35,7 +35,7 @@ const TodoList = () => {
     const toggle = () => {
         setModal(!modal);
     }
-
+    
     const saveTask = (taskObj) => {
         let tempList = taskList
         tempList.push(taskObj)

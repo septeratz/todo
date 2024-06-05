@@ -5,6 +5,7 @@ const EditTaskPopup = ({ modal, toggle, updateTask, taskObj }) => {
     const [taskName, setTaskName] = useState('');
     const [description, setDescription] = useState('');
     const [category, setCategory] = useState('Work');
+    const [completed, setCompleted] = useState(false);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -13,8 +14,11 @@ const EditTaskPopup = ({ modal, toggle, updateTask, taskObj }) => {
         }  else if (name === "description") {
             setDescription(value);
         }
-        else {
+        else if (name === "category") {
             setCategory(value);
+        }
+        else {
+            setCompleted(!completed);
         }
     };
 
@@ -22,6 +26,7 @@ const EditTaskPopup = ({ modal, toggle, updateTask, taskObj }) => {
         setTaskName(taskObj.Name);
         setDescription(taskObj.Description);
         setCategory(taskObj.Category);
+        setCompleted(taskObj.Completed);
     }, [taskObj]);
 
     const handleUpdate = (e) => {
@@ -30,6 +35,7 @@ const EditTaskPopup = ({ modal, toggle, updateTask, taskObj }) => {
         tempObj['Name'] = taskName;
         tempObj['Description'] = description;
         tempObj['Category'] = category;
+        tempObj['Completed'] = completed;
         updateTask(tempObj);
     };
 

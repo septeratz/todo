@@ -5,6 +5,7 @@ const CreateTaskPopup = ({ modal, toggle, save }) => {
     const [taskName, setTaskName] = useState('');
     const [description, setDescription] = useState('');
     const [category, setCategory] = useState('Work');  
+    const [completed, setCompleted] = useState(false);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -12,6 +13,8 @@ const CreateTaskPopup = ({ modal, toggle, save }) => {
             setTaskName(value);
         }  else if (name === "description") {
             setDescription(value);
+        } else if (name === "completed") {
+            setCompleted(!completed);
         }
         else {
             setCategory(value);
@@ -24,6 +27,7 @@ const CreateTaskPopup = ({ modal, toggle, save }) => {
         taskObj["Name"] = taskName;
         taskObj["Description"] = description;
         taskObj["Category"] = category;
+        taskObj["Completed"] = completed;
         save(taskObj);
     };
 

@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
 import EditTask from '../modals/EditTask';
-import { Card, Grid, Chip, CardContent, CardActions, Button, Typography, Box } from '@mui/material';
+import { Card, Grid, Chip, CardContent, CardActions, Button, Typography, Box, Checkbox } from '@mui/material';
 
 
 const TaskCard = ({taskObj, index, deleteTask, updateListArray}) => {
     const [modal, setModal] = useState(false);
+    const [completed, setCompleted] = useState(false);
 
     const colors = [
         {
@@ -57,7 +58,10 @@ const TaskCard = ({taskObj, index, deleteTask, updateListArray}) => {
     const handleDelete = () => {
         deleteTask(index)
     }
-
+    const handleCheck = () => {
+        setCompleted(!completed);
+        localStorage.setItem('completed', !completed);
+    }
     return (
             <Grid item xs={12} sm={4} md={2.4}>
                 <Card sx={{ mb: 3 }}>
@@ -68,6 +72,7 @@ const TaskCard = ({taskObj, index, deleteTask, updateListArray}) => {
                             <Chip label={taskObj.Category} />
                         </Box>
                         <Typography variant="body" sx={{ mt: 2 }}>{taskObj.Description}</Typography>
+                        <Checkbox checked={taskObj.completed} onChange={handleCheck} />
                     </CardContent>
                     <CardActions>
                         <Button size="small" color="primary" onClick={() => setModal(true)}>Edit</Button>
